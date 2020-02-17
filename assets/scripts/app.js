@@ -9,8 +9,8 @@ class Product {
 };
 
 class Component {
-    constructor(renderHook) {
-        this.hook = renderHook;
+    constructor(renderHookId) {
+        this.hook = renderHookId;
     }
 
     createRootElement(tag, cssClasess, attributes) {
@@ -23,6 +23,8 @@ class Component {
                 rootElement.setAttribute(attr.name, attr.value);
             }
         }
+        document.getElementById(this.hookId).append(rootElement);
+        return rootElement;
     }
 };
 
@@ -78,7 +80,7 @@ class Productlist {
     }
 };
 
-class ShoppinCart {
+class ShoppinCart extends Component {
     items = [];
 
     set cartItems(value) {
@@ -98,7 +100,7 @@ class ShoppinCart {
     }
 
     render() {
-        const cartEl = document.createElement('section');
+        const cartEl = this.createRootElement('section', 'cart');
         cartEl.innerHTML = `
         <h2>Total amount: \$${0} </h2>
         <button>Order</button>
