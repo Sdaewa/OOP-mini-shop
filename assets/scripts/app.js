@@ -8,9 +8,16 @@ class Product {
     }
 };
 
+class ElementAttribute {
+    constructor(attrName, attrValue) {
+        this.name = attrName;
+        this.value = attrValue;
+    }
+};
+
 class Component {
     constructor(renderHookId) {
-        this.hook = renderHookId;
+        this.hookId = renderHookId;
     }
 
     createRootElement(tag, cssClasess, attributes) {
@@ -28,10 +35,36 @@ class Component {
     }
 };
 
-class ElementAttribute {
-    constructor(attrName, attrValue) {
-        this.name = attrName;
-        this.value = attrValue;
+class ShoppinCart extends Component {
+    items = [];
+
+    set cartItems(value) {
+        this.items = value;
+        this.total.innerHTML = `<h2>Total amount: \$${this.totalAmount} </h2>`;
+    };
+
+    get totalAmount() {
+        const sum = this.items.reduce((prevVal, curItem) => prevVal + curItem.price, 0);
+        return sum;
+    }
+
+    constructor(renderHookId) {
+        super(renderHookId);
+    }
+
+    addProduct(product) {
+        const updatedItems = [...this.items];
+        updatedItems.push(product);
+        this.cartItems = updatedItems;
+    }
+
+    render() {
+        const cartEl = this.createRootElement('section', 'cart');
+        cartEl.innerHTML = `
+        <h2>Total amount: \$${0} </h2>
+        <button>Order</button>
+        `;
+        this.total = cartEl.querySelector('h2');
     }
 };
 
@@ -39,6 +72,9 @@ class ProductItem {
     constructor(product) {
         this.product = product;
     }
+    addToCart() {
+        App.addProductToCart(this.product);
+    };
     render() {
         const prodEl = document.createElement('li');
         prodEl.className = 'product-item'
@@ -57,9 +93,6 @@ class ProductItem {
         addBtn.addEventListener('click', this.addToCart.bind(this));
         return prodEl;
     }
-    addToCart() {
-        App.addProductToCart(this.product);
-    };
 };
 
 class Productlist {
@@ -80,45 +113,13 @@ class Productlist {
     }
 };
 
-class ShoppinCart extends Component {
-    items = [];
-
-    set cartItems(value) {
-        this.items = value;
-        this.total.innerHTML = `<h2>Total amount: \$${this.totalAmount} </h2>`;
-    };
-
-    get totalAmount() {
-        const sum = this.items.reduce((prevVal, curItem) => prevVal + curItem.price, 0);
-        return sum;
-    }
-
-    addProduct(product) {
-        const updatedItems = [...this.items];
-        updatedItems.push(product);
-        this.cartItems = updatedItems;
-    }
-
-    render() {
-        const cartEl = this.createRootElement('section', 'cart');
-        cartEl.innerHTML = `
-        <h2>Total amount: \$${0} </h2>
-        <button>Order</button>
-        `
-        cartEl.className = 'cart';
-        this.total = cartEl.querySelector('h2');
-        return cartEl;
-    }
-};
-
 class Shop {
     render() {
         const renderHook = document.getElementById('app');
-        this.cart = new ShoppinCart();
-        const cartEl = this.cart.render();
+        this.cart = new ShoppinCart('app');
+        this.cart.render();
         const productlist = new Productlist();
         const prodListEl = productlist.render();
-        renderHook.append(cartEl);
         renderHook.append(prodListEl);
 
     }
