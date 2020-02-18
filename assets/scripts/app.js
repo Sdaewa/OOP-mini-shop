@@ -120,13 +120,10 @@ class Productlist extends Component {
 
 class Shop {
     render() {
-        const renderHook = document.getElementById('app');
         this.cart = new ShoppinCart('app');
         this.cart.render();
-        const productlist = new Productlist();
-        const prodListEl = productlist.render();
-        renderHook.append(prodListEl);
-
+        const productlist = new Productlist('app');
+        productlist.render();
     }
 };
 
