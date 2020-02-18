@@ -69,7 +69,8 @@ class ShoppinCart extends Component {
 };
 
 class ProductItem extends Component {
-    constructor(product) {
+    constructor(product, renderHookId) {
+        super(renderHookId);
         this.product = product;
     }
     addToCart() {
@@ -93,21 +94,27 @@ class ProductItem extends Component {
     }
 };
 
-class Productlist {
+class Productlist extends Component {
     products = [
-        new Product('A pillow', 'https://cdn.shopify.com/s/files/1/0088/8134/0478/products/Fine_Bedding_Junior_Washable_Pillow_Junior_1024x1024.jpg?v=1559914222', 10, 'white'),
-        new Product('A carpet', 'http://www.flooringvault.com/wp-content/uploads/2018/10/Carpet.jpg', 20, 'brown')
+        new Product('A pillow',
+            'https://cdn.shopify.com/s/files/1/0088/8134/0478/products/Fine_Bedding_Junior_Washable_Pillow_Junior_1024x1024.jpg?v=1559914222',
+            10,
+            'white'),
+        new Product('A carpet',
+            'http://www.flooringvault.com/wp-content/uploads/2018/10/Carpet.jpg',
+            20,
+            'brown')
     ];
-    constructor() {};
+    constructor(renderHookId) {
+        super(renderHookId);
+    };
     render() {
-        const prodList = document.createElement('ul');
-        prodList.className = 'product-list';
+        this.createRootElement('li', 'product-list', [new ElementAttribute('id', 'prod-list')]);
         for (const prod of this.products) {
-            const productItem = new ProductItem(prod);
-            const prodEl = productItem.render();
+            const productItem = new ProductItem(prod, 'prod-list');
+            productItem.render();
             prodList.append(prodEl);
         }
-        return prodList;
     }
 };
 
