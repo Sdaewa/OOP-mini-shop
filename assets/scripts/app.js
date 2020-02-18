@@ -77,7 +77,7 @@ class ProductItem extends Component {
         App.addProductToCart(this.product);
     };
     render() {
-        const prodEl = this.createRootElement('lil', 'product-item');
+        const prodEl = this.createRootElement('li', 'product-item');
         prodEl.innerHTML = `
             <div>
              <img src='${this.product.photo}' alt='${this.product.title}'>
@@ -109,7 +109,7 @@ class Productlist extends Component {
         super(renderHookId);
     };
     render() {
-        this.createRootElement('li', 'product-list', [new ElementAttribute('id', 'prod-list')]);
+        this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);
         for (const prod of this.products) {
             const productItem = new ProductItem(prod, 'prod-list');
             productItem.render();
