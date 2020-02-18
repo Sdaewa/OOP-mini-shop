@@ -68,7 +68,7 @@ class ShoppinCart extends Component {
     }
 };
 
-class ProductItem {
+class ProductItem extends Component {
     constructor(product) {
         this.product = product;
     }
@@ -76,8 +76,7 @@ class ProductItem {
         App.addProductToCart(this.product);
     };
     render() {
-        const prodEl = document.createElement('li');
-        prodEl.className = 'product-item'
+        const prodEl = this.createRootElement('lil', 'product-item');
         prodEl.innerHTML = `
             <div>
              <img src='${this.product.photo}' alt='${this.product.title}'>
@@ -91,7 +90,6 @@ class ProductItem {
             `;
         const addBtn = prodEl.querySelector('button');
         addBtn.addEventListener('click', this.addToCart.bind(this));
-        return prodEl;
     }
 };
 
