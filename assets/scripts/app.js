@@ -113,7 +113,7 @@ class Productlist extends Component {
         for (const prod of this.products) {
             const productItem = new ProductItem(prod, 'prod-list');
             productItem.render();
-            prodList.append(prodEl);
+            // prodList.append(prodEl);
         }
     }
 };
