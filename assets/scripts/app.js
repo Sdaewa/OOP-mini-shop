@@ -16,9 +16,11 @@ class ElementAttribute {
 };
 
 class Component {
-    constructor(renderHookId) {
+    constructor(renderHookId, shouldRender = true) {
         this.hookId = renderHookId;
-        this.render();
+        if (shouldRender) {
+            this.render();
+        }
     }
     render() {};
 
@@ -72,8 +74,9 @@ class ShoppinCart extends Component {
 
 class ProductItem extends Component {
     constructor(product, renderHookId) {
-        super(renderHookId);
+        super(renderHookId, false);
         this.product = product;
+        this.render();
     }
     addToCart() {
         App.addProductToCart(this.product);
