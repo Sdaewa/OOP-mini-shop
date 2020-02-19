@@ -61,13 +61,18 @@ class ShoppinCart extends Component {
         updatedItems.push(product);
         this.cartItems = updatedItems;
     }
-
+    orderProduct() {
+        console.log('Ordering...');
+        console.log(this.items);
+    }
     render() {
         const cartEl = this.createRootElement('section', 'cart');
         cartEl.innerHTML = `
         <h2>Total amount: \$${0} </h2>
         <button>Order</button>
         `;
+        const orderBtn = cartEl.querySelector('button');
+        orderBtn.addEventListener('click', () => this.orderProduct());
         this.total = cartEl.querySelector('h2');
     }
 };
@@ -116,7 +121,7 @@ class Productlist extends Component {
     };
 
     fetchProducts() { //simulating fetch from DB
-        this.products = [new Product('A pillow',
+        this.#products = [new Product('A pillow',
                 'https://cdn.shopify.com/s/files/1/0088/8134/0478/products/Fine_Bedding_Junior_Washable_Pillow_Junior_1024x1024.jpg?v=1559914222',
                 10,
                 'white'),
@@ -129,14 +134,14 @@ class Productlist extends Component {
     }
 
     renderProducts() {
-        for (const prod of this.products) {
+        for (const prod of this.#products) {
             new ProductItem(prod, 'prod-list');
         }
 
     }
     render() {
         this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);
-        if (this.products && this.products.length > 0) {
+        if (this.#products && this.#products.length > 0) {
             this.renderProducts();
         }
     }
