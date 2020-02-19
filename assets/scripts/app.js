@@ -122,6 +122,7 @@ class Productlist extends Component {
                 20,
                 'brown')
         ];
+        this.renderProducts();
     }
 
     renderProducts() {
